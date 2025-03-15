@@ -1,15 +1,16 @@
 import { useState } from "react";
 import "./App.css";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import { Route, Routes } from "react-router";
+import DashBoard from "./pages/DashBoard";
 
 function App() {
   return (
-    <>
-      <div className="bg-zinc-800 p-3 text-white w-full h-screen ">
-        <h1 className="text-4xl text-center font-medium font-mono">
-          Hello,this is Team Agrovision
-        </h1>
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/dashboard" element={<DashBoard />} />
+    </Routes>
   );
 }
 
