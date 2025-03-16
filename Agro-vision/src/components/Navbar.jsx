@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { HiOutlineBars4 } from "react-icons/hi2";
 import Sidebar from "./Sidebar";
 import { motion } from "motion/react";
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const handleClick = () => {

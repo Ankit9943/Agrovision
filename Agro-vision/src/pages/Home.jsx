@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import Challenge from "../components/challenge";
+import Challenge from "../components/Challenge";
 
 function Home() {
   return (

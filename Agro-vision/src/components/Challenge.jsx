@@ -1,7 +1,7 @@
 import React from "react";
 
-function challenge() {
+function Challenge() {
   return <section className="w-full bg-red-500"></section>;
 }
 
-export default challenge;
+export default Challenge;
