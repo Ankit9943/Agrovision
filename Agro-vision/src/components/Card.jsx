@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Chart from "./Chart";
+import SensorChart from "./Chart";
 
 const Card = ({
   flexdirection = "flex-row",
@@ -29,7 +29,7 @@ const Card = ({
           </div>
         </div>
         <div className="chart w-full lg:w-2/3 xl:w-2/3">
-          <Chart />
+          <SensorChart />
         </div>
       </div>
     </div>

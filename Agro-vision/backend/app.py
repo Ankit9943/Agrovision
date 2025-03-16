@@ -1,8 +1,10 @@
 from flask import Flask, render_template, jsonify
+from flask_cors import CORS
 import requests
 import time
 
 app = Flask(__name__)
+CORS(app)
 
 CHANNEL_ID = '2800421'
 API_KEY = 'NDCWC397CZJLULAB'
