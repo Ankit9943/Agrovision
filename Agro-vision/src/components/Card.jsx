@@ -29,7 +29,7 @@ const Card = ({
           </div>
         </div>
         <div className="chart w-full lg:w-2/3 xl:w-2/3">
-          <SensorChart />
+          <SensorChart  />
         </div>
       </div>
     </div>

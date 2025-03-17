@@ -28,6 +28,9 @@ def data():
             'timestamp': int(time.mktime(time.strptime(feed['created_at'], "%Y-%m-%dT%H:%M:%SZ")))
         }
 
+        def average_of_5(data):
+            pass 
+
         recommendations = []
         if float(data['water_level']) < 20: 
             recommendations.append('Water level is low, please refill the water tank.')

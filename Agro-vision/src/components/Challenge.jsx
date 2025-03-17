@@ -4,8 +4,7 @@ import water from "../assets/water-scarcity.png";
 import monitor from "../assets/monitor.png";
 import mineral from "../assets/mineral.png";
 
-<<<<<<< HEAD
-function challenge() {
+function Challenge() {
   return (
     <section className="w-full font-[poppins]">
       <h1 className="text-center text-4xl font-normal font-[poppins] p-4 md:pb-8">
@@ -70,10 +69,6 @@ function challenge() {
       </div>
     </section>
   );
-=======
-function Challenge() {
-  return <section className="w-full bg-red-500"></section>;
->>>>>>> dd972704bc7447a1b06e0b380cc2930055e83733
 }
 
 export default Challenge;
