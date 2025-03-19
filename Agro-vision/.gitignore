@@ -12,7 +12,8 @@ dist
 dist-ssr
 *.local
 **/bin/
-**/.env/
+**/.env
+**/.venv/
 **/__pycache__/*
 
 
