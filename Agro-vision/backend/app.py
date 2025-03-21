@@ -15,7 +15,7 @@ CORS(app)
 load_dotenv()
 
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
-THINGSPEAK_URL = f'https://api.thingspeak.com/channels/{os.getenv('THINGSPEAK_CHANNEL_ID')}/feeds.json?api_key={os.getenv('THINGSPEAK_API_KEY')}&results=1'
+THINGSPEAK_URL = f'https://api.thingspeak.com/channels/{os.getenv("THINGSPEAK_CHANNEL_ID")}/feeds.json?api_key={os.getenv("THINGSPEAK_API_KEY")}&results=1'
 
 @app.route('/')
 def index():
