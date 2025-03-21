@@ -1,0 +1,48 @@
+{
+  "responses": [
+    {
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Hi Aarav! I don't have a version number in the way software does. I am a large language model, trained by Google. My knowledge and capabilities are constantly being updated. So, rather than a version, you can think of me as always evolving.\n"
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "avg_logprobs": -0.4545256181196733,
+          "finish_reason": "STOP",
+          "grounding_metadata": null,
+          "index": null,
+          "logprobs_result": null,
+          "safety_ratings": null
+        }
+      ],
+      "create_time": null,
+      "response_id": null,
+      "model_version": "gemini-2.0-flash",
+      "prompt_feedback": null,
+      "usage_metadata": {
+        "cached_content_token_count": null,
+        "candidates_token_count": 55,
+        "prompt_token_count": 12,
+        "total_token_count": 67
+      },
+      "automatic_function_calling_history": [],
+      "parsed": null
+    }
+    
+  ]
+}
