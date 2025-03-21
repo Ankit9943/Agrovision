@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from google import genai
 
@@ -76,42 +76,37 @@ def simple_ai_chat():
             return jsonify({"Error": f'Error while connecting gemini {e}'})
 
         filename = "last5chats.json"
-        written = writeto(filename, response)
+        written = writeto(filename, json.loads(response.model_dump_json()))
         if written != 0:
             # try deleting the first one
             deleteto(filename)
 
-        return response.model_dump_json()
+        return jsonify(response.model_dump_json())
 
-@app.route('/ai-highlight', methods=['POST'])
+@app.route('/ai-highlight')
 def ai_highlight():
-    if request.method == "POST":
-        try:
-            with open('sensorsdata.json', 'r') as file:
-                sensor_data = json.load(file)
-        except:
-            return jsonify({"Error": "Not able to get sensor data history"})
-        data = sensor_data['responses']
-        data_dict = {
-            data[0]['channel']['field1']:[obj['feed'][0]['field1'] for obj in data ],
-            data[0]['channel']['field2']:[obj['feed'][0]['field2'] for obj in data ], 
-            data[0]['channel']['field3']:[obj['feed'][0]['field3'] for obj in data ], 
-            data[0]['channel']['field4']:[obj['feed'][0]['field4'] for obj in data ], 
-            data[0]['channel']['field5']:[obj['feed'][0]['field5'] for obj in data ],
-        }
+    try:
+        with open('sensorsdata.json', 'r') as file:
+            sensor_data = json.load(file)
+    except:
+        return jsonify({"Error": "Not able to get sensor data history"})
+    data = sensor_data['responses']
+    data_dict = {
+        data[0]['channel']['field1']:[obj['feeds'][0]['field1'] for obj in data ],
+        data[0]['channel']['field2']:[obj['feeds'][0]['field2'] for obj in data ], 
+        data[0]['channel']['field3']:[obj['feeds'][0]['field3'] for obj in data ], 
+        data[0]['channel']['field4']:[obj['feeds'][0]['field4'] for obj in data ], 
+        data[0]['channel']['field5']:[obj['feeds'][0]['field5'] for obj in data ],
+    }
+    query = f' context: {str(data_dict)} \n --- \n give a human readable insights of these labeled data, and this data is for farmers so based on these data give advice what to do what not do for their crop and soil to be healthy.'
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.0-flash", contents=query
+        )
+    except Exception as e:
+        return jsonify({"Error": f'Error while connecting gemini {e}'})
 
-        query = f' context: {str(data_dict)} \n --- \n give a human readable insights of these labeled data, and this data is for farmers so based on these data give advice what to do what not do for their crop and soil to be healthy.'
-        try:
-            response = client.models.generate_content(
-                model="gemini-2.0-flash", contents=query
-            )
-        except Exception as e:
-            return jsonify({"Error": f'Error while connecting gemini {e}'})
-
-        if response.status_code == 200:
-            
-            return jsonify(response.model_dump_json())
-        return jsonify({"Error":'Some error occured.'})
+    return jsonify(response.model_dump_json())
 
 
 if __name__ == '__main__':
