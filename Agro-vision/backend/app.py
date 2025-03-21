@@ -27,7 +27,7 @@ def data():
 
     if response.status_code == 200:
 
-        # maitain a registry operation to a file 
+        # maitain a registry to a file 
         filename = "sensorsdata.json"
         is_written = writeto(filename, response.json())
         if is_written != 0:
@@ -68,9 +68,13 @@ def simple_ai_chat():
 
     if request.method == "POST":
         user_input = request.form['user_input']
-        response = client.models.generate_content(
-            model="gemini-2.0-flash", contents=user_input
-        )
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.0-flash", contents=user_input
+            )
+        except Exception as e:
+            return jsonify({"Error": f'Error while connecting gemini {e}'})
+
         filename = "last5chats.json"
         written = writeto(filename, response)
         if written != 0:
@@ -82,11 +86,32 @@ def simple_ai_chat():
 @app.route('/ai-highlight', methods=['POST'])
 def ai_highlight():
     if request.method == "POST":
-        pass 
-    pass 
+        try:
+            with open('sensorsdata.json', 'r') as file:
+                sensor_data = json.load(file)
+        except:
+            return jsonify({"Error": "Not able to get sensor data history"})
+        data = sensor_data['responses']
+        data_dict = {
+            data[0]['channel']['field1']:[obj['feed'][0]['field1'] for obj in data ],
+            data[0]['channel']['field2']:[obj['feed'][0]['field2'] for obj in data ], 
+            data[0]['channel']['field3']:[obj['feed'][0]['field3'] for obj in data ], 
+            data[0]['channel']['field4']:[obj['feed'][0]['field4'] for obj in data ], 
+            data[0]['channel']['field5']:[obj['feed'][0]['field5'] for obj in data ],
+        }
 
+        query = f' context: {str(data_dict)} \n --- \n give a human readable insights of these labeled data, and this data is for farmers so based on these data give advice what to do what not do for their crop and soil to be healthy.'
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.0-flash", contents=query
+            )
+        except Exception as e:
+            return jsonify({"Error": f'Error while connecting gemini {e}'})
 
-
+        if response.status_code == 200:
+            
+            return jsonify(response.model_dump_json())
+        return jsonify({"Error":'Some error occured.'})
 
 
 if __name__ == '__main__':
