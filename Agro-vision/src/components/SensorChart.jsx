@@ -21,6 +21,7 @@ Chart.register(
 );
 
 const ENDPOINT = "http://localhost:5000/data";
+const MAX_DATA_POINTS = 10;
 
 function SensorChart() {
   const chartRef = useRef(null);
@@ -29,6 +30,10 @@ function SensorChart() {
 
   useEffect(() => {
     if (chartRef.current) {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+
       chartInstance.current = new Chart(chartRef.current, {
         type: "line",
         data: {
@@ -68,6 +73,7 @@ function SensorChart() {
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           scales: {
             y: { beginAtZero: true },
           },
@@ -79,9 +85,7 @@ function SensorChart() {
             legend: {
               display: true,
               position: "bottom",
-              labels: {
-                usePointStyle: true,
-              },
+              labels: { usePointStyle: true },
             },
           },
         },
@@ -90,15 +94,18 @@ function SensorChart() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(ENDPOINT, {
-          mode: "cors",
-        });
-
+        const response = await fetch(ENDPOINT, { mode: "cors" });
         const data = await response.json();
 
         if (chartInstance.current) {
           const now = new Date(data.timestamp * 1000).toLocaleTimeString();
           const { datasets, labels } = chartInstance.current.data;
+
+          // Ensure data doesn't grow infinitely
+          if (labels.length >= MAX_DATA_POINTS) {
+            labels.shift();
+            datasets.forEach((dataset) => dataset.data.shift());
+          }
 
           labels.push(now);
           datasets[0].data.push(data.moisture);
@@ -118,15 +125,22 @@ function SensorChart() {
 
     const interval = setInterval(fetchData, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
   }, []);
 
   return (
-    <div>
-      <canvas ref={chartRef}></canvas>
-      <div id="recommendations">
+    <div className="w-full h-[250px] md:h-[400px] lg:h-[500px] overflow-hidden">
+      <canvas ref={chartRef} className="w-full h-full"></canvas>
+      <div id="recommendations" className="mt-4">
         {recommendations.map((rec, index) => (
-          <p key={index}>{rec}</p>
+          <p key={index} className="text-sm text-gray-700">
+            {rec}
+          </p>
         ))}
       </div>
     </div>

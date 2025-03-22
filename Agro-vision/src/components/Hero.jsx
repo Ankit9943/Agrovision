@@ -26,7 +26,7 @@ function Hero() {
             delay: 0.5,
           },
         }}
-        className="flex flex-col gap-3 items-center justify-center absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4"
+        className="flex flex-col gap-3 items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4"
       >
         <h1 className="text-4xl md:text-8xl text-center font-bold text-white">
           TEAM AGROVISION
