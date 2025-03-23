@@ -34,6 +34,27 @@ function Hero() {
         <span className="text-center font-medium text-2xl md:text-4xl text-white">
           PRESENTS
         </span>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 1, delay: 0.7 },
+          }}
+          className="text-lg md:text-2xl text-white max-w-3xl bg-white/10 backdrop-blur-md px-6  rounded-lg shadow-lg font-medium leading-relaxed border-l-4 border-green-400 text-left"
+        >
+          🌱{" "}
+          <span className="font-semibold text-green-300">
+            Empowering Farmers
+          </span>{" "}
+          with AI-driven insights for{" "}
+          <span className="text-green-200">smart irrigation</span>,
+          <span className="text-green-200"> soil health</span>, and{" "}
+          <span className="text-green-200">sustainable agriculture</span>.
+          Optimize water usage, monitor crops, and receive real-time
+          recommendations to boost productivity. 🚜✨
+        </motion.p>
       </motion.div>
     </div>
   );
