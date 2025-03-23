@@ -17,9 +17,30 @@ load_dotenv()
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 THINGSPEAK_URL = f'https://api.thingspeak.com/channels/{os.getenv("THINGSPEAK_CHANNEL_ID")}/feeds.json?api_key={os.getenv("THINGSPEAK_API_KEY")}&results=1'
 
+
+# serialize sensor data for ai
+def recent_sensors_data():
+    try:
+        with open('sensorsdata.json', 'r') as file:
+            sensor_data = json.load(file)
+        data = sensor_data['responses']
+        data_dict = {
+            data[0]['channel']['field1']:[obj['feeds'][0]['field1'] for obj in data ],
+            data[0]['channel']['field2']:[obj['feeds'][0]['field2'] for obj in data ], 
+            data[0]['channel']['field3']:[obj['feeds'][0]['field3'] for obj in data ], 
+            data[0]['channel']['field4']:[obj['feeds'][0]['field4'] for obj in data ], 
+            data[0]['channel']['field5']:[obj['feeds'][0]['field5'] for obj in data ],
+        }
+        return data_dict
+
+    except:
+        return {}
+
+## Routers and handlers 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/data')
 def data():
@@ -63,14 +84,19 @@ def data():
         data = {}
     return jsonify(data)
 
+
 @app.route('/ai-chat', methods=['POST'])
 def simple_ai_chat():
-
     if request.method == "POST":
+
+        """ (userinput + sensordata) => gemini => response + append in the last5chats file"""
+
         user_input = request.form['user_input']
+        sensor_data = recent_sensors_data()
+
         try:
             response = client.models.generate_content(
-                model="gemini-2.0-flash", contents=user_input
+                model="gemini-2.0-flash", contents= f'context: farms data: {sensor_data} + "\n --- \n" + query: {user_input},  note : reply in hindi always'
             )
         except Exception as e:
             return jsonify({"Error": f'Error while connecting gemini {e}'})
@@ -83,22 +109,11 @@ def simple_ai_chat():
 
         return jsonify(response.model_dump_json())
 
+
 @app.route('/ai-highlight')
 def ai_highlight():
-    try:
-        with open('sensorsdata.json', 'r') as file:
-            sensor_data = json.load(file)
-    except:
-        return jsonify({"Error": "Not able to get sensor data history"})
-    data = sensor_data['responses']
-    data_dict = {
-        data[0]['channel']['field1']:[obj['feeds'][0]['field1'] for obj in data ],
-        data[0]['channel']['field2']:[obj['feeds'][0]['field2'] for obj in data ], 
-        data[0]['channel']['field3']:[obj['feeds'][0]['field3'] for obj in data ], 
-        data[0]['channel']['field4']:[obj['feeds'][0]['field4'] for obj in data ], 
-        data[0]['channel']['field5']:[obj['feeds'][0]['field5'] for obj in data ],
-    }
-    query = f' context: {str(data_dict)} \n --- \n give a human readable insights of these labeled data, and this data is for farmers so based on these data give advice what to do what not do for their crop and soil to be healthy.'
+    sensor_data = recent_sensors_data()
+    query = f' context: {str(sensor_data)} \n --- \n give a human readable insights of these labeled data, and this data is for farmers so based on these data give advice what to do what not do for their crop and soil to be healthy. note : reply in hindi always '
     try:
         response = client.models.generate_content(
             model="gemini-2.0-flash", contents=query
