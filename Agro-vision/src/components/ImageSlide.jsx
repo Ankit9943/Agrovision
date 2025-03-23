@@ -3,14 +3,17 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import img1 from "../assets/img1.avif";
-import img2 from "../assets/img2.avif";
-import img3 from "../assets/img3.avif";
-import img4 from "../assets/img4.avif";
-import img5 from "../assets/img5.avif";
-import img6 from "../assets/img6.avif";
+import img1 from "../assets/image-gallery/image1.png";
+import img2 from "../assets/image-gallery/image2.webp";
+import img3 from "../assets/image-gallery/image3.webp";
+import img4 from "../assets/image-gallery/image4.webp";
+import img5 from "../assets/image-gallery/image5.webp";
+import img6 from "../assets/image-gallery/image6.png";
+import img7 from "../assets/image-gallery/image7.png";
+import img8 from "../assets/image-gallery/image8.png";
+import img9 from "../assets/image-gallery/image9.png";
 
-const images = [img1, img2, img3, img4, img5, img6];
+const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
 
 function ImageSlide() {
   const settings = {
