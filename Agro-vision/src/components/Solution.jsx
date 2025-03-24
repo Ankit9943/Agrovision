@@ -75,7 +75,9 @@ const Solution = () => {
                 <h1 className="text-3xl font-bold text-gray-900 text-left">
                   {item.heading}
                 </h1>
-                <p className="text-lg text-gray-700 mt-2">{item.about}</p>
+                <p className="text-lg text-justify text-gray-700 mt-2">
+                  {item.about}
+                </p>
               </div>
             </div>
           </div>

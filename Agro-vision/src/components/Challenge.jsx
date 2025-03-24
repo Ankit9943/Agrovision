@@ -18,7 +18,7 @@ function Challenge() {
           <h2 className="text-2xl font-bold text-center">
             Crop Losses Due to Pests and Diseases
           </h2>
-          <p className="text-lg font-normal">
+          <p className="text-lg text-justify font-normal">
             Annually, around 40% of global crop yield is lost due to pests,
             diseases, and weeds. This leads to food shortages and lower incomes
             for farmers. Traditional pest control methods are often inefficient,
@@ -32,7 +32,7 @@ function Challenge() {
           <h2 className="text-2xl font-bold text-center">
             Rising Water Scarcity
           </h2>
-          <p className="text-lg font-normal">
+          <p className="text-lg text-justify font-normal">
             Agriculture consumes over 70% of global freshwater, but inefficient
             irrigation leads to significant wastage. In India alone, over 600
             million people face water stress, making sustainable water
@@ -46,7 +46,7 @@ function Challenge() {
           <h2 className="text-2xl font-bold text-center">
             Lack of Real-Time Monitoring & Insights
           </h2>
-          <p className="text-lg font-normal">
+          <p className="text-lg text-justify font-normal">
             Farmers often lack real-time data on soil conditions, water levels,
             and crop health. This results in delayed decision-making, increased
             resource wastage, and preventable yield losses.
@@ -59,7 +59,7 @@ function Challenge() {
           <h2 className="text-2xl font-bold text-center">
             Imbalanced Nutrient Application
           </h2>
-          <p className="text-lg font-normal">
+          <p className="text-lg text-justify font-normal">
             Excessive or imbalanced use of fertilizers affects soil health,
             pollutes water bodies, and contributes to greenhouse gas emissions.
             Overuse of nitrogen, phosphorus, and potassium depletes soil

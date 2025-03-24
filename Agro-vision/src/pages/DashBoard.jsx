@@ -35,7 +35,7 @@ function DashBoard() {
           id="irrigation"
           className="section flex flex-col items-center justify-center bg-blue-50 min-h-[60vh] w-full sm:w-11/12 mt-10 rounded-2xl p-4"
         >
-          <Card 
+          <Card
             heading="Farm Overview"
             greeting={false} // Remove greeting from first card
           />
