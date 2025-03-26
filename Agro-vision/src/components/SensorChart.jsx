@@ -20,7 +20,7 @@ Chart.register(
   Legend
 );
 
-const ENDPOINT = "http://localhost:5000/data";
+const ENDPOINT = "https://agrovision-contributed.onrender.com/data";
 const MAX_DATA_POINTS = 10;
 
 function SensorChart() {

@@ -26,7 +26,7 @@ const Card = ({
   const fetchHighlights = async () => {
     setIsRefreshing(true);
     try {
-      const response = await fetch("http://localhost:5000/ai-highlight");
+      const response = await fetch("https://agrovision-contributed.onrender.com/ai-highlight");
       if (!response.ok) {
         throw new Error("Failed to fetch highlights");
       }

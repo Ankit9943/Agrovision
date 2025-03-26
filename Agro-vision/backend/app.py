@@ -17,8 +17,6 @@ load_dotenv()
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 THINGSPEAK_URL = f'https://api.thingspeak.com/channels/{os.getenv("THINGSPEAK_CHANNEL_ID")}/feeds.json?api_key={os.getenv("THINGSPEAK_API_KEY")}&results=1'
 
-
-# serialize sensor data for ai
 def recent_sensors_data():
     try:
         with open('sensorsdata.json', 'r') as file:
@@ -125,9 +123,4 @@ def ai_highlight():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-def application(environ, start_response):
-    # Pass the WSGI environment and start_response to Flask's internal WSGI handler
-    response = app.wsgi_app(environ)
-    return response
+    app.run(debug=False)
