@@ -126,3 +126,8 @@ def ai_highlight():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+def application(environ, start_response):
+    # Pass the WSGI environment and start_response to Flask's internal WSGI handler
+    response = app.wsgi_app(environ)
+    return response
