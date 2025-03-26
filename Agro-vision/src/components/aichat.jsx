@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { IoSend } from "react-icons/io5";
 import ReactMarkdown from "react-markdown";
 
-const ENDPOINT = "http://localhost:5000/ai-chat";
+const ENDPOINT = "https://agrovision-contributed.onrender.com/ai-chat";
 
 function AiChat() {
   const [messages, setMessages] = useState([]);
