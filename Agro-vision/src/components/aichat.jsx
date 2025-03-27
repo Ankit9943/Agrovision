@@ -100,25 +100,39 @@ function AiChat() {
               {message.type === "ai" ? (
                 <ReactMarkdown
                   components={{
-                    p: ({node, children}) => (
-                      <p style={{marginBottom: '0.5rem'}}>{children}</p>
+                    p: ({ node, children }) => (
+                      <p style={{ marginBottom: "0.5rem" }}>{children}</p>
                     ),
-                    ul: ({node, children}) => (
-                      <ul style={{listStyleType: 'disc', marginLeft: '1rem', marginBottom: '0.5rem'}}>
+                    ul: ({ node, children }) => (
+                      <ul
+                        style={{
+                          listStyleType: "disc",
+                          marginLeft: "1rem",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
                         {children}
                       </ul>
                     ),
-                    ol: ({node, children}) => (
-                      <ol style={{listStyleType: 'decimal', marginLeft: '1rem', marginBottom: '0.5rem'}}>
+                    ol: ({ node, children }) => (
+                      <ol
+                        style={{
+                          listStyleType: "decimal",
+                          marginLeft: "1rem",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
                         {children}
                       </ol>
                     ),
-                    code: ({node, children}) => (
-                      <code style={{
-                        backgroundColor: '#f1f1f1',
-                        padding: '0.1rem 0.3rem',
-                        borderRadius: '0.2rem'
-                      }}>
+                    code: ({ node, children }) => (
+                      <code
+                        style={{
+                          backgroundColor: "#f1f1f1",
+                          padding: "0.1rem 0.3rem",
+                          borderRadius: "0.2rem",
+                        }}
+                      >
                         {children}
                       </code>
                     ),
@@ -157,7 +171,7 @@ function AiChat() {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-[#89AC46]"
+            className="md:flex-1 border border-gray-300 rounded-lg px-1 md:px-4 py-2 focus:outline-none focus:border-[#89AC46]"
           />
           <button
             type="submit"
@@ -167,7 +181,7 @@ function AiChat() {
                               isLoading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
           >
-            <IoSend size={20} />
+            <IoSend size={15} />
           </button>
         </div>
       </form>

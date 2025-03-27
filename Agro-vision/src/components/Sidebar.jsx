@@ -22,11 +22,12 @@ function Sidebar({ isOpen, handleClick }) {
         <RxCross2 />
       </button>
       <div className="flex flex-col gap-6 text-4xl">
-        <h2 className="cursor-pointer">About</h2>
+        <Link to="/" className="cursor-pointer">
+          Home
+        </Link>
         <Link to="/dashboard" className="cursor-pointer">
           Dashboard
         </Link>
-        <h2 className="cursor-pointer">Contact</h2>
       </div>
     </motion.div>
   );
