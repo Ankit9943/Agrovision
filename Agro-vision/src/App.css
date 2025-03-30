@@ -9,3 +9,153 @@
   padding: 0.1rem 0.3rem;
   border-radius: 0.2rem;
 }
+
+body {
+  background: linear-gradient(
+    -45deg,
+    #86b049,
+    /* Light green */ #41644a,
+    /* Dark green */ #4d774e,
+    /* Forest green */ #9dc88d /* Sage green */
+  );
+  background-size: 400% 400%;
+  animation: gradient 20s ease infinite;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #89ac46, #41644a);
+  color: white;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #41644a, #89ac46);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.button:hover::after {
+  opacity: 1;
+}
+
+.ai-chat-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ai-chat-container::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+
+.ai-chat-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #89ac46, #41644a);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.ai-chat-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #41644a, #89ac46);
+}
+
+/* Chat Header Gradient */
+.chat-header {
+  background: linear-gradient(45deg, #89ac46, #41644a);
+  transition: all 0.3s ease;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  padding: 0.75rem 1.25rem !important;  /* Reduced padding */
+}
+
+/* Gradient Button */
+.gradient-button {
+  background: linear-gradient(45deg, #89ac46, #41644a);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.gradient-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(137, 172, 70, 0.3);
+}
+
+.gradient-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #41644a, #89ac46);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gradient-button:hover::after {
+  opacity: 1;
+}
+
+/* Update user message background */
+.user-message {
+  background: linear-gradient(45deg, #89ac46, #41644a) !important;
+}
+
+/* AI Chat specific styles */
+.Card {
+  min-height: 400px;  /* Reduced from 500px */
+  max-height: 600px;  /* Added max-height limit */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 1200px;  /* Added max-width for better control */
+  margin: 0 auto;
+}
+
+.ai-chat-container {
+  height: 400px;  /* Match Card min-height */
+  overflow-y: auto;
+}
+
+/* Adjust message container height */
+.flex-1.overflow-y-auto {
+  height: 300px !important;  /* Reduced height for messages area */
+}
+
+/* Make input area more compact */
+form.border-t {
+  padding: 0.75rem !important;
+}
+
+.Card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
