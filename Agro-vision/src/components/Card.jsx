@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { IoRefresh } from "react-icons/io5";
 import SensorChart from "./SensorChart";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
 
 const Card = ({
   flexdirection = "flex-row",
   greeting = false,
   heading = "Default Heading",
   warnings = [],
+  summary = "", // New prop for summary
 }) => {
   let dateTime = new Date();
   const [date] = useState(dateTime.toDateString());
@@ -17,16 +18,18 @@ const Card = ({
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const formatMarkdown = (text) => {
-    text = text.replace(/\\\*/g, '*');
-    text = text.replace(/\\n/g, '\n');
-    text = text.replace(/\\\\/g, '\\');
+    text = text.replace(/\\\*/g, "*");
+    text = text.replace(/\\n/g, "\n");
+    text = text.replace(/\\\\/g, "\\");
     return text;
   };
 
   const fetchHighlights = async () => {
     setIsRefreshing(true);
     try {
-      const response = await fetch("https://agrovision-contributed.onrender.com/ai-highlight");
+      const response = await fetch(
+        "https://agrovision-contributed.onrender.com/ai-highlight"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch highlights");
       }
@@ -35,12 +38,12 @@ const Card = ({
       const highlightArray = aiResponse
         .split("\n")
         .filter((item) => item.trim())
-        .map(item => formatMarkdown(item));
+        .map((item) => formatMarkdown(item));
       setHighlights(highlightArray);
       setError(null);
     } catch (err) {
       console.error("Error fetching highlights:", err);
-      setError("Failed to load recommendations");
+      setError("सुझाव लोड नहीं किए जा सके."); // Suggestions could not be loaded.
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -85,10 +88,16 @@ const Card = ({
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold my-2">
             {heading}
           </h2>
+
+          {/* New Summary Section */}
+          {summary && (
+            <p className="text-sm sm:text-base text-gray-700 my-2">{summary}</p>
+          )}
+
           <hr className="border-gray-400 my-2" />
 
           {/* Notification List */}
-          <div className="notification-card w-full max-h-[300px] overflow-y-auto rounded-2xl my-2 p-2 scrollbar-hide">
+          <div className="notification-card w-full max-h-[500px] overflow-y-auto rounded-2xl my-2 p-2 scrollbar-hide">
             {isLoading ? (
               <div className="flex justify-center items-center h-20">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -103,17 +112,20 @@ const Card = ({
                     className="bg-green-100 m-1 rounded-lg p-2 text-xs sm:text-sm md:text-base shadow-sm"
                   >
                     <span className="font-medium">{idx + 1}. </span>
-                    <ReactMarkdown 
+                    <ReactMarkdown
                       components={{
-                        p: ({node, ...props}) => <span {...props} />,
-                        strong: ({node, ...props}) => (
+                        p: ({ node, ...props }) => <span {...props} />,
+                        strong: ({ node, ...props }) => (
                           <span className="font-bold" {...props} />
                         ),
-                        em: ({node, ...props}) => (
+                        em: ({ node, ...props }) => (
                           <span className="italic" {...props} />
                         ),
-                        code: ({node, ...props}) => (
-                          <code className="bg-green-50 px-1 rounded" {...props} />
+                        code: ({ node, ...props }) => (
+                          <code
+                            className="bg-green-50 px-1 rounded"
+                            {...props}
+                          />
                         ),
                       }}
                     >

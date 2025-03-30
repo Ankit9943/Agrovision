@@ -15,10 +15,10 @@ function DashBoard() {
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <div className="flex flex-col gap-2">
               <h1 className="text-3xl font-bold text-[#89AC46]">
-                {getGreeting()}, Kisaan!
+                {getGreeting()}, किसान! <br />
               </h1>
               <p className="text-gray-600">
-                Welcome to your farm dashboard. Monitor Or Ask.
+                अपने खेत के डैशबोर्ड में आपका स्वागत है। निगरानी करें या पूछें। <br />
               </p>
             </div>
           </div>
@@ -35,7 +35,23 @@ function DashBoard() {
             id="irrigation"
             className="section flex flex-col items-center justify-center bg-blue-50 min-h-[60vh] w-full sm:w-11/12 mt-10 rounded-2xl p-4"
           >
-            <Card heading="Farm Overview" greeting={false} />
+            <Card
+              heading={
+                <>
+                  खेत का अवलोकन <br />
+                  <span className="text-sm text-gray-500">(Farm Overview)</span>
+                </>
+              }
+              greeting={false}
+              summary={
+                <>
+                  यह कार्ड आपके खेत की वर्तमान स्थिति और प्रदर्शन का अवलोकन प्रदान करता है। <br />
+                  <span className="text-sm text-gray-500">
+                    (This card provides an overview of your farm's current status and performance.)
+                  </span>
+                </>
+              }
+            />
           </section>
 
           <section
@@ -43,11 +59,25 @@ function DashBoard() {
             className="section flex flex-col items-center justify-center px-4 py-4 bg-blue-50 min-h-[60vh] w-full sm:w-11/12 mt-10 rounded-2xl"
           >
             <h1 className="text-2xl sm:text-3xl text-center">
-              Monitor Water Usage
+              पानी के उपयोग की निगरानी करें <br />
+              <span className="text-sm text-gray-500">(Monitor Water Usage)</span>
             </h1>
             <Card
+              heading={
+                <>
+                  पानी के उपयोग की निगरानी करें <br />
+                  <span className="text-sm text-gray-500">(Monitor Water Usage)</span>
+                </>
+              }
               flexdirection="flex-row-reverse"
-              heading="AI Recommendations/Insights"
+              summary={
+                <>
+                  यह कार्ड पानी के उपयोग को अनुकूलित करने के लिए एआई आधारित सिफारिशें प्रदान करता है। <br />
+                  <span className="text-sm text-gray-500">
+                    (This card provides AI-based recommendations to optimize water usage.)
+                  </span>
+                </>
+              }
             />
           </section>
 
@@ -56,19 +86,51 @@ function DashBoard() {
             className="section flex flex-col items-center justify-center px-4 py-4 bg-blue-50 min-h-[60vh] w-full sm:w-11/12 mt-10 rounded-2xl"
           >
             <h1 className="text-2xl sm:text-3xl text-center">
-              Monitor Soil Health
+              मिट्टी के स्वास्थ्य की निगरानी करें <br />
+              <span className="text-sm text-gray-500">(Monitor Soil Health)</span>
             </h1>
-            <Card heading="AI Recommendations/Insights" />
+            <Card
+              heading={
+                <>
+                  मिट्टी के स्वास्थ्य की निगरानी करें <br />
+                  <span className="text-sm text-gray-500">(Monitor Soil Health)</span>
+                </>
+              }
+              summary={
+                <>
+                  यह कार्ड मिट्टी की गुणवत्ता और पोषक तत्वों की स्थिति पर अंतर्दृष्टि प्रदान करता है। <br />
+                  <span className="text-sm text-gray-500">
+                    (This card provides insights into soil quality and nutrient status.)
+                  </span>
+                </>
+              }
+            />
           </section>
 
           <section
             id="weather"
             className="section flex flex-col items-center justify-center px-4 py-4 bg-blue-50 min-h-[60vh] w-full sm:w-11/12 mt-10 rounded-2xl"
           >
-            <h1 className="text-2xl sm:text-3xl text-center">Weather</h1>
+            <h1 className="text-2xl sm:text-3xl text-center">
+              मौसम <br />
+              <span className="text-sm text-gray-500">(Weather)</span>
+            </h1>
             <Card
+              heading={
+                <>
+                  मौसम <br />
+                  <span className="text-sm text-gray-500">(Weather)</span>
+                </>
+              }
               flexdirection="flex-row-reverse"
-              heading="AI Recommendations/Insights"
+              summary={
+                <>
+                  यह कार्ड मौसम के पूर्वानुमान और खेती के लिए सुझाव प्रदान करता है। <br />
+                  <span className="text-sm text-gray-500">
+                    (This card provides weather forecasts and suggestions for farming.)
+                  </span>
+                </>
+              }
             />
           </section>
         </div>

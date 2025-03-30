@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { IoWarningOutline } from "react-icons/io5"; // Import the warning icon
 import {
   Chart,
   LineController,
@@ -27,6 +28,7 @@ function SensorChart() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
   const [recommendations, setRecommendations] = useState([]);
+  const [error, setError] = useState(null); // Add error state
 
   useEffect(() => {
     if (chartRef.current) {
@@ -40,31 +42,31 @@ function SensorChart() {
           labels: [],
           datasets: [
             {
-              label: "Moisture",
+              label: "मिट्टी की नमी", // Moisture
               data: [],
               borderColor: "rgba(75, 192, 192, 1)",
               borderWidth: 3,
             },
             {
-              label: "NPK",
+              label: "एनपीके", // NPK
               data: [],
               borderColor: "rgba(54, 162, 235, 1)",
               borderWidth: 3,
             },
             {
-              label: "Water Level",
+              label: "जल स्तर", // Water Level
               data: [],
               borderColor: "rgba(255, 206, 86, 1)",
               borderWidth: 3,
             },
             {
-              label: "Temperature",
+              label: "तापमान", // Temperature
               data: [],
               borderColor: "rgba(255, 99, 132, 1)",
               borderWidth: 3,
             },
             {
-              label: "Humidity",
+              label: "आर्द्रता", // Humidity
               data: [],
               borderColor: "rgba(153, 102, 255, 1)",
               borderWidth: 3,
@@ -80,7 +82,7 @@ function SensorChart() {
           plugins: {
             title: {
               display: true,
-              text: " Sensor Overview Graph ",
+              text: "सेंसर अवलोकन ग्राफ", // Sensor Overview Graph
             },
             legend: {
               display: true,
@@ -98,37 +100,40 @@ function SensorChart() {
         const data = await response.json();
 
         if (chartInstance.current) {
-          const now = new Date(data.timestamp * 1000).toLocaleTimeString();
+          const now = new Date().toLocaleTimeString(); // Get the current time
           const { datasets, labels } = chartInstance.current.data;
 
           // Ensure data doesn't grow infinitely
           if (labels.length >= MAX_DATA_POINTS) {
-            labels.shift();
-            datasets.forEach((dataset) => dataset.data.shift());
+            labels.shift(); // Remove the oldest label
+            datasets.forEach((dataset) => dataset.data.shift()); // Remove the oldest data point
           }
 
-          labels.push(now);
+          labels.push(now); // Add the current time as a new label
           datasets[0].data.push(data.moisture);
           datasets[1].data.push(data.npk);
           datasets[2].data.push(data.water_level);
           datasets[3].data.push(data.temperature);
           datasets[4].data.push(data.humidity);
 
-          chartInstance.current.update();
+          chartInstance.current.update(); // Update the chart
         }
 
         setRecommendations(data.recommendations || []);
+        setError(null); // Clear error if data fetch is successful
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError("डेटा प्राप्त करने में विफल। कृपया बाद में पुनः प्रयास करें।"); // Failed to fetch data. Please try again later.
       }
     };
 
-    const interval = setInterval(fetchData, 5000);
+    fetchData(); // Fetch data immediately on mount
+    const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
 
     return () => {
-      clearInterval(interval);
+      clearInterval(interval); // Clear the interval on component unmount
       if (chartInstance.current) {
-        chartInstance.current.destroy();
+        chartInstance.current.destroy(); // Destroy the chart instance
       }
     };
   }, []);
@@ -143,6 +148,12 @@ function SensorChart() {
           </p>
         ))}
       </div>
+      {error && (
+        <div className="mt-4 flex items-center text-red-600">
+          <IoWarningOutline className="mr-2" /> {/* Warning icon */}
+          <span>{error}</span>
+        </div>
+      )}
     </div>
   );
 }

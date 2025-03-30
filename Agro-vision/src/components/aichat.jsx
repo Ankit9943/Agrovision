@@ -69,9 +69,9 @@ function AiChat() {
     <div className="w-full max-w-4xl mx-auto h-[600px] bg-white rounded-xl shadow-lg flex flex-col">
       {/* Header */}
       <div className="bg-[#89AC46] text-white px-6 py-4 rounded-t-xl">
-        <h2 className="text-xl font-semibold">Ask Computer Ji</h2>
+        <h2 className="text-xl font-semibold">Computer Ji</h2>
         <p className="text-sm opacity-80">
-          Ask your Computer Ji, how you farm is doing?
+          कंप्यूटर जी से प्रश्न पूछें?
         </p>
       </div>
 
@@ -79,7 +79,8 @@ function AiChat() {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 mt-8">
-            Start a conversation with the AI assistant
+            उदाहरण के लिए आपका खेत कैसा चल रहा है? &nbsp;
+            मिट्टी में कितनी नमी है?
           </div>
         )}
 
