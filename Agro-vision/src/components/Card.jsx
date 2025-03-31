@@ -55,14 +55,14 @@ const Card = ({
   }, []);
 
   return (
-    <div className="section flex justify-center px-4 py-6 min-h-[60vh] w-full sm:w-11/12 mt-6 rounded-2xl">
+    <div className="flex justify-center px-4 py-6 w-full sm:w-11/12 mt-6 rounded-2xl">
       <div
-        className={`Card bg-white w-full flex flex-col md:flex-row ${
+        className={`bg-white w-full flex flex-col md:flex-row ${
           flexdirection === "flex-row-reverse" ? "md:flex-row-reverse" : ""
-        } shadow-lg rounded-2xl overflow-hidden`}
+        } shadow-lg rounded-2xl`}
       >
         {/* Left: Greeting & Notifications */}
-        <div className="greeting w-full md:w-1/3 p-4 flex flex-col">
+        <div className="w-full md:w-1/3 p-4 flex flex-col">
           <div className="flex justify-between items-center">
             {greeting && (
               <p className="text-xs sm:text-sm md:text-base font-bold text-gray-600">
@@ -97,7 +97,7 @@ const Card = ({
           <hr className="border-gray-400 my-2" />
 
           {/* Notification List */}
-          <div className="notification-card w-full max-h-[500px] overflow-y-auto rounded-2xl my-2 p-2 scrollbar-hide">
+          <div className="notification-card w-full max-h-[500px] overflow-y-scroll rounded-2xl my-2 p-2 scrollbar-hide">
             {isLoading ? (
               <div className="flex justify-center items-center h-20">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -147,7 +147,7 @@ const Card = ({
         </div>
 
         {/* Right: Enlarged Chart Section */}
-        <div className="chart w-full md:w-2/3 p-4 flex items-center justify-center bg-gray-100 flex-1 h-[250px] md:h-[400px] lg:h-[500px] min-h-[250px]">
+        <div className="chart w-full md:w-2/3 p-4 flex items-stretch justify-center bg-gray-100 flex-1">
           <SensorChart />
         </div>
       </div>

@@ -133,7 +133,6 @@ body {
 /* AI Chat specific styles */
 .Card {
   min-height: 400px;  /* Reduced from 500px */
-  max-height: 600px;  /* Added max-height limit */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
   max-width: 1200px;  /* Added max-width for better control */

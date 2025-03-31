@@ -64,20 +64,6 @@ def data():
             'timestamp': int(time.mktime(time.strptime(feed['created_at'], "%Y-%m-%dT%H:%M:%SZ")))
         }
 
-        recommendations = []
-        if float(data['water_level']) < 20: 
-            recommendations.append('Water level is low, please refill the water tank.')
-        if float(data['temperature']) > 35: 
-            recommendations.append('Temperature is high, consider cooling measures.')
-        if float(data['humidity']) < 30:  
-            recommendations.append('Humidity is low, consider using a humidifier.')
-        if float(data['npk']) < 10:  
-            recommendations.append('NPK level is low, please fertilize the soil.')
-        if float(data['moisture']) < 10: 
-            recommendations.append('Soil moisture is low, consider irrigation.')
-
-        data['recommendations'] = recommendations
-
     else:
         data = {}
     return jsonify(data)

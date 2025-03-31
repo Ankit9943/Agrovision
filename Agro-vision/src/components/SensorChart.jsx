@@ -139,18 +139,20 @@ function SensorChart() {
   }, []);
 
   return (
-    <div className="w-full h-[250px] md:h-[400px] lg:h-[500px] overflow-hidden">
-      <canvas ref={chartRef} className="w-full h-full"></canvas>
-      <div id="recommendations" className="mt-4">
+    <div className="w-full h-full flex flex-col">
+      <div className="flex-none h-[500px]">
+        <canvas ref={chartRef} className="w-full h-full"></canvas>
+      </div>
+      <div id="recommendations" className="flex-none mt-4 overflow-y-auto">
         {recommendations.map((rec, index) => (
-          <p key={index} className="text-sm text-gray-700">
+          <p key={index} className="text-sm text-gray-700 mb-2">
             {rec}
           </p>
         ))}
       </div>
       {error && (
-        <div className="mt-4 flex items-center text-red-600">
-          <IoWarningOutline className="mr-2" /> {/* Warning icon */}
+        <div className="flex-none mt-4 flex items-center text-red-600">
+          <IoWarningOutline className="mr-2" />
           <span>{error}</span>
         </div>
       )}
