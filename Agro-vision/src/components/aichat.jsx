@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { IoSend } from "react-icons/io5";
 import ReactMarkdown from "react-markdown";
 
@@ -9,30 +9,78 @@ function AiChat() {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, scrollToBottom]);
 
-  const formatMarkdown = (text) => {
+  const formatMarkdown = useCallback((text) => {
     // Replace ** with proper markdown syntax
     text = text.replace(/\*\*/g, "_");
     // Ensure newlines are preserved
     return text.replace(/\\n/g, "\n");
-  };
+  }, []);
+  
+  // Memoize markdown components to avoid recreation on each render
+  const markdownComponents = useMemo(() => ({
+    p: ({ children }) => (
+      <p style={{ marginBottom: "0.5rem" }}>{children}</p>
+    ),
+    ul: ({ children }) => (
+      <ul
+        style={{
+          listStyleType: "disc",
+          marginLeft: "1rem",
+          marginBottom: "0.5rem",
+        }}
+      >
+        {children}
+      </ul>
+    ),
+    ol: ({ children }) => (
+      <ol
+        style={{
+          listStyleType: "decimal",
+          marginLeft: "1rem",
+          marginBottom: "0.5rem",
+        }}
+      >
+        {children}
+      </ol>
+    ),
+    code: ({ children }) => (
+      <code
+        style={{
+          backgroundColor: "#f1f1f1",
+          padding: "0.1rem 0.3rem",
+          borderRadius: "0.2rem",
+        }}
+      >
+        {children}
+      </code>
+    ),
+  }), []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    if (!inputMessage.trim()) return;
+    if (!inputMessage.trim() || isLoading) return;
 
     const userMessage = inputMessage.trim();
     setMessages((prev) => [...prev, { type: "user", content: userMessage }]);
     setInputMessage("");
     setIsLoading(true);
+    
+    // Cancel previous request if still pending
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    
+    abortControllerRef.current = new AbortController();
 
     try {
       const formData = new FormData();
@@ -41,7 +89,12 @@ function AiChat() {
       const response = await fetch(ENDPOINT, {
         method: "POST",
         body: formData,
+        signal: abortControllerRef.current.signal,
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
       const aiResponse = JSON.parse(data).candidates[0].content.parts[0].text;
@@ -52,18 +105,29 @@ function AiChat() {
         { type: "ai", content: formattedResponse },
       ]);
     } catch (error) {
-      console.error("Error:", error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          type: "ai",
-          content: "Sorry, I couldn't process your request. Please try again.",
-        },
-      ]);
+      if (error.name !== 'AbortError') {
+        console.error("Error:", error);
+        setMessages((prev) => [
+          ...prev,
+          {
+            type: "ai",
+            content: "Sorry, I couldn't process your request. Please try again.",
+          },
+        ]);
+      }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [inputMessage, isLoading, formatMarkdown]);
+  
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   return (
     <div className="w-full max-w-4xl mx-auto h-[600px] bg-white rounded-xl shadow-lg flex flex-col">
@@ -98,46 +162,7 @@ function AiChat() {
               }`}
             >
               {message.type === "ai" ? (
-                <ReactMarkdown
-                  components={{
-                    p: ({ node, children }) => (
-                      <p style={{ marginBottom: "0.5rem" }}>{children}</p>
-                    ),
-                    ul: ({ node, children }) => (
-                      <ul
-                        style={{
-                          listStyleType: "disc",
-                          marginLeft: "1rem",
-                          marginBottom: "0.5rem",
-                        }}
-                      >
-                        {children}
-                      </ul>
-                    ),
-                    ol: ({ node, children }) => (
-                      <ol
-                        style={{
-                          listStyleType: "decimal",
-                          marginLeft: "1rem",
-                          marginBottom: "0.5rem",
-                        }}
-                      >
-                        {children}
-                      </ol>
-                    ),
-                    code: ({ node, children }) => (
-                      <code
-                        style={{
-                          backgroundColor: "#f1f1f1",
-                          padding: "0.1rem 0.3rem",
-                          borderRadius: "0.2rem",
-                        }}
-                      >
-                        {children}
-                      </code>
-                    ),
-                  }}
-                >
+                <ReactMarkdown components={markdownComponents}>
                   {message.content}
                 </ReactMarkdown>
               ) : (

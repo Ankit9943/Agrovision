@@ -1,4 +1,4 @@
-async function fetchApiData(endpoint, mode="GET", event=null, body=null){
+export default async function fetchApiData(endpoint, mode="GET", event=null, body=null){
     if(event){
         event.preventDefault(); // preventing form from submitting 
     }
