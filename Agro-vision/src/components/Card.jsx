@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { IoRefresh } from "react-icons/io5";
 import SensorChart from "./SensorChart";
 import ReactMarkdown from 'react-markdown';
@@ -16,14 +16,14 @@ const Card = ({
   const [error, setError] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const formatMarkdown = (text) => {
+  const formatMarkdown = useCallback((text) => {
     text = text.replace(/\\\*/g, '*');
     text = text.replace(/\\n/g, '\n');
     text = text.replace(/\\\\/g, '\\');
     return text;
-  };
+  }, []);
 
-  const fetchHighlights = async () => {
+  const fetchHighlights = useCallback(async () => {
     setIsRefreshing(true);
     try {
       const response = await fetch("https://agrovision-contributed.onrender.com/ai-highlight");
@@ -45,11 +45,11 @@ const Card = ({
       setIsLoading(false);
       setIsRefreshing(false);
     }
-  };
+  }, [formatMarkdown]);
 
   useEffect(() => {
     fetchHighlights();
-  }, []);
+  }, [fetchHighlights]);
 
   return (
     <div className="section flex justify-center px-4 py-6 min-h-[60vh] w-full sm:w-11/12 mt-6 rounded-2xl">
@@ -105,14 +105,14 @@ const Card = ({
                     <span className="font-medium">{idx + 1}. </span>
                     <ReactMarkdown 
                       components={{
-                        p: ({node, ...props}) => <span {...props} />,
-                        strong: ({node, ...props}) => (
+                        p: ({...props}) => <span {...props} />,
+                        strong: ({...props}) => (
                           <span className="font-bold" {...props} />
                         ),
-                        em: ({node, ...props}) => (
+                        em: ({...props}) => (
                           <span className="italic" {...props} />
                         ),
-                        code: ({node, ...props}) => (
+                        code: ({...props}) => (
                           <code className="bg-green-50 px-1 rounded" {...props} />
                         ),
                       }}
