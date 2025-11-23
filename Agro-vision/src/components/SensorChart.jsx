@@ -67,7 +67,7 @@ function SensorChart() {
         datasets[3].data.push(data.temperature);
         datasets[4].data.push(data.humidity);
 
-        chartInstance.current.update('none'); // Disable animation for better performance
+        chartInstance.current.update('none'); // Completely disable animations for better performance
       }
 
       setRecommendations(data.recommendations || []);

@@ -92,11 +92,11 @@ def data():
             return jsonify({'error': 'Invalid sensor data format'}), 400
         
         data = {
-            'temperature': feed['field1'],
-            'humidity': feed['field2'],
-            'water_level': feed['field3'],
-            'npk': feed['field4'],
-            'moisture': feed['field5'],
+            'temperature': str(temperature),
+            'humidity': str(humidity),
+            'water_level': str(water_level),
+            'npk': str(npk),
+            'moisture': str(moisture),
             'timestamp': int(time.mktime(time.strptime(feed['created_at'], "%Y-%m-%dT%H:%M:%SZ")))
         }
 
@@ -142,9 +142,8 @@ def simple_ai_chat():
             contents=f'context: farms data: {sensor_data} + "\n --- \n" + query: {user_input},  note : reply in hindi always'
         )
         
-        # Convert response to JSON once
-        response_json = response.model_dump_json()
-        response_dict = json.loads(response_json)
+        # Convert response to dict once
+        response_dict = json.loads(response.model_dump_json())
         
         filename = "last5chats.json"
         written = writeto(filename, response_dict)
@@ -152,7 +151,7 @@ def simple_ai_chat():
             # try deleting the first one
             deleteto(filename)
 
-        return jsonify(response_json)
+        return jsonify(response_dict)
         
     except Exception as e:
         print(f"Error in AI chat: {e}")

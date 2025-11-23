@@ -105,14 +105,14 @@ const Card = ({
                     <span className="font-medium">{idx + 1}. </span>
                     <ReactMarkdown 
                       components={{
-                        p: ({...props}) => <span {...props} />,
-                        strong: ({...props}) => (
+                        p: (props) => <span {...props} />,
+                        strong: (props) => (
                           <span className="font-bold" {...props} />
                         ),
-                        em: ({...props}) => (
+                        em: (props) => (
                           <span className="italic" {...props} />
                         ),
-                        code: ({...props}) => (
+                        code: (props) => (
                           <code className="bg-green-50 px-1 rounded" {...props} />
                         ),
                       }}
